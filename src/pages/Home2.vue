@@ -1,8 +1,6 @@
 <template>
 	<div class="about">
-		<header-com v-bind:loginInfo = "loginInfo"></header-com>
 		<p>关于我们</p>
-        <footer-com v-bind:loginInfo = "loginInfo"></footer-com>
 	</div>
 </template>
 <script>

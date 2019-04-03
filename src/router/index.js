@@ -3,17 +3,42 @@ import Router from 'vue-router'
 import Home from '@/pages/Home'
 import Login from '@/pages/Login'
 import Single from '@/pages/Single'
-import About from '@/pages/About'
-import My from '@/pages/My'
+import Home1 from '@/pages/Home1'
+import Home2 from '@/pages/Home2'
+import Home3 from '@/pages/Home3'
+import List from '@/pages/List'
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {path: '/home',name: 'Home',component: Home},
+    {path: '/home',
+    name: 'Home',
+    component: Home,
+    children:[
+	    {
+	    	path: '/home1',
+		    name: 'Home1',
+		    component: Home1,
+	    },
+	    {
+	    	path: '/home2',
+		    name: 'Home2',
+		    component: Home2,
+	    },
+	    {
+	    	path: '/home3',
+		    name: 'Home3',
+		    component: Home3,
+	    },
+	    {
+	    	path: '/list',
+		    name: 'List',
+		    component: List,
+	    },
+    ],redirect:'/home1'
+    },
     {path: '/login',name: 'Login',component: Login},
     {path: '/single',name: 'Single',component: Single},
-    {path: '/about',name: 'About',component: About},
-    {path: '/my',name: 'My',component: My},
     {path: '*',redirect : {name:"Login"}}
   ]
 })

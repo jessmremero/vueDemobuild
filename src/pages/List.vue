@@ -1,46 +1,60 @@
 <template>
 	<div>
-	  <header-com v-bind:loginInfo = "loginInfo"></header-com>
-	  <router-view></router-view>
-	  <p class="test">{{msg}}</p>
-	  <footer-com v-bind:loginInfo = "loginInfo" v-on:order="currentIndex"></footer-com>
+	  <div class="index">
+	    <div class="recommend">
+	    	<div  v-for="item in buildingList" @click="buildingSingle(item.estateid)">
+	    		<img :src='item.photourl[0]' alt="" />
+	    		<p>{{item.estatename}}</p>
+	    	</div>	    	
+	    </div>
+	  </div>
+	  <button @click="back()">返回</button>
 	</div>
-	
 </template>
 
 <script>
-import HeaderCom from "@/components/Header"
-import FooterCom from "../components/Footer"
+
 export default {
-	components:{
-		 FooterCom,
-		 HeaderCom
-	},
+
   data(){
   	return {
-  		title : "",
-  		loginInfo:{},
   		list:[],
-  		number1:'',
-  		number2:'',
-  		number3:'',
-  		number4:'',
-  		buildingList:[],
-  		msg:''
+  		buildingList:[]
   	}
   },
   created(){
-    var param = this.$route.query;
-    this.msg = '还没有传值哦'
-    this.loginInfo = {username:sessionStorage.getItem("username"),title:'信息系统'}     
+  	 console.log(this.$route.params)
+    var param = this.$route.params;//接受传参
+   
+    this.queryBuildingInfo('全部区域',param.n)
   },
   methods:{
-  	currentIndex(i){
+  	queryBuildingInfo(r,s){
   		var that = this
-  		this.msg = i
+  		this.$axios.get('https://www.hzfc.xyz/estateinfo/find',{
+  			params:{
+  			   region:r,
+  			   state:s	
+  			}
+  		})
+  		.then(function(res){
+  			console.log(res) 			
+  				that.buildingList = JSON.parse(res.data.data.data)
+  				console.log(that.buildingList)
+  		})
+  		.catch(function(error){
+  			console.log(error)
+  		})
+  	},
+  	buildingSingle(id){  
+  		var that = this
+        that.$router.push({name:'Single',params:{id:id}})
+  	},
+  	back(){
+  		var that = this
+  		that.$router.go(-1)
   	}
   }
-
 }
 </script>
 
@@ -127,7 +141,13 @@ background-color: #00c682;
 	width:100%;
 	height:100%;
 }
-.test{
-	padding-bottom:30px;
-}
+button{
+	width:100px;
+	height:30px;
+	line-height:30px;
+	color:white;
+	background-color:#00aeff;
+	border:none;
+	outline:none;
+	}
 </style>

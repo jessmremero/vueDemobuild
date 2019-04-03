@@ -44,7 +44,6 @@ export default {
 	.head>h1{
 		font-size:36px;	
 		float:left;
-		width:100px;
 		height:60px;
 		line-height:60px;
 	}
